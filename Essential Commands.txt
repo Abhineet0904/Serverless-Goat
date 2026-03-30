@@ -1,0 +1,48 @@
+1. DEPLOYING STACK :
+
+aws cloudformation package --template-file template.yaml --s3-bucket serverless-goat-bucket-11in20pm --output-template-file packaged.yaml
+aws cloudformation deploy --template-file packaged.yaml --stack-name serverless-goat --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
+aws cloudformation describe-stacks --stack-name serverless-goat --query "Stacks[0].Outputs"
+
+
+
+2. BUCKET POLICY FOR AUTOMATICALLY CREATED BUCKET :
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadObjects",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::serverless-goat-bucket-lxhz8syarxym/*"
+        },
+        {
+            "Sid": "PublicListBucket",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::serverless-goat-bucket-lxhz8syarxym"
+    }
+    ]
+}
+
+
+
+3. WHEN FACING ERROR WHILE DEPLOYING :
+aws cloudformation describe-stack-events --stack-name serverless-goat
+aws cloudformation delete-stack --stack-name serverless-goat
+aws cloudformation wait stack-delete-complete --stack-name serverless-goat
+
+
+
+4. ONLY WHILE DESTROYING THE STACK AND THE MANUALLY CREATED BUCKET :
+aws cloudformation delete-stack --stack-name serverless-goat
+aws cloudformation wait stack-delete-complete --stack-name serverless-goat
+aws s3 rb s3://serverless-goat-bucket-11in20pm --force
+aws s3 ls
+
+
+
+5. WHEN FACING ERROR WHILE DESTROYING :
+sudo timedatectl set-ntp true

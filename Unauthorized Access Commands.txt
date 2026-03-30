@@ -1,3 +1,11 @@
+IN NEW MACHINE :
+
+
+
+sudo apt install awscli -y
+aws configure
+
+
 aws s3 ls s3://serverless-goat-bucket-zfvvdstqc4ra
 aws s3 sync s3://serverless-goat-bucket-zfvvdstqc4ra ./"Serverless Goat_PrivEsc"
 

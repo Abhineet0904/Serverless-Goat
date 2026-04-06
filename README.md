@@ -1,3 +1,7 @@
+```
+Note that this is not the official repository, I have just forked it so that it stays up to date. You will find the official repository here : https://github.com/OWASP/Serverless-Goat/
+```
+
 ## Introduction ##
 Thank you for using OWASP ServerlessGoat!
 ​
